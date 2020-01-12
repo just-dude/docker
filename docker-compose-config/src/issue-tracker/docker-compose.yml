@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  issue-tracker:
+    image: issue-tracker
+    ports:
+      - 8080:8080
+    depends_on:
+      - issue-tracker-db
+    volumes:
+      - ./app-logs:/opt/application/logs
+  issue-tracker-db:
+    image: issue-tracker-dev-db
+    ports:
+      - 5434:5432

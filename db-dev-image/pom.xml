@@ -9,8 +9,22 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>app-image</artifactId>
+    <artifactId>db-dev-image</artifactId>
     <packaging>pom</packaging>
+
+    <profiles>
+        <profile>
+            <id>issue-tracker</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <project.name.kebab.case>issue-tracker</project.name.kebab.case>
+                <project.name.under.case>issue_tracker</project.name.under.case>
+                <dump.name>issue-tracker.sql</dump.name>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -25,12 +39,12 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <executable>docker</executable>
+                            <executable>sh</executable>
                             <arguments>
-                                <argument>build</argument>
-                                <argument>-t</argument>
-                                <argument>${project.name}</argument>
-                                <argument>src</argument>
+                                <argument>src/build_db_image.sh</argument>
+                                <argument>${project.name.kebab.case}</argument>
+                                <argument>${project.name.under.case}</argument>
+                                <argument>${project.basedir}/src/dump/${dump.name}</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -38,5 +52,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

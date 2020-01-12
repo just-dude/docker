@@ -3,10 +3,16 @@ FROM ubuntu:18.04
 
 COPY jre-8u231-linux-x64.tar.gz /tmp/jre.tar.gz
 
+COPY wait_for /usr/local/bin/wait_for
+
 RUN tar -xvzf /tmp/jre.tar.gz -C /opt && \
     update-alternatives --install /usr/bin/java java /opt/jre1.8.0_231/bin/java 2042 && \
     update-alternatives --install /usr/bin/keytool javac /opt/jre1.8.0_231/bin/keytool 2042 && \
-    rm -rf /tmp/**
+    apt-get -q update && apt-get -qy install netcat && \
+    apt-get install postgresql-client --yes && \
+    rm -rf /tmp/** && \
+    apt-get clean && apt-get autoclean && apt-get --purge -y autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV JAVA_HOME /opt/jre1.8.0_231
 ENV LC_ALL C.UTF-8
