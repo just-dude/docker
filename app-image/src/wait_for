@@ -27,10 +27,10 @@ wait_for() {
   for i in `seq $TIMEOUT` ; do
 
     if [ $DATABASE -eq 0 ] ; then
-      echo "nc wait_for"
+      echo "nc wait_for $HOST:$PORT"
       nc -z "$HOST" "$PORT" > /dev/null 2>&1
     else
-      echo "pg_isready wait_for"
+      echo "pg_isready wait_for $HOST:$PORT"
       pg_isready -h "$HOST" -p "$PORT" -U "postgres" > /dev/null 2>&1
     fi
 
